@@ -19,7 +19,7 @@ public class ActionQueueHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(ActionQueueHandler.class);
 
-    private SimpMessageSendingOperations msgTemplate;
+    private final SimpMessageSendingOperations msgTemplate;
     private final MessageChannel jmsOutChannel;
 
 
@@ -27,11 +27,6 @@ public class ActionQueueHandler {
     public ActionQueueHandler(SimpMessageSendingOperations msgTemplate, MessageChannel jmsOutChannel) {
         this.msgTemplate = msgTemplate;
         this.jmsOutChannel = jmsOutChannel;
-    }
-
-
-    void setMsgTemplate(SimpMessageSendingOperations msgTemplate) {
-        this.msgTemplate = msgTemplate;
     }
 
 
