@@ -1,0 +1,70 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Action Monitor - Listener'"></head>
+<body>
+
+<nav th:replace="fragments/navbar :: navbar('listener')">Navbar</nav>
+
+<div class="container">
+    <div class="starter-template">
+        <h1>Action Listener</h1>
+
+        <p class="lead">Here you can see the actions in real-time</p>
+
+        <p>
+            <a href="#" onclick="$('#actions').text('')" class="btn btn-info btn-sm" role="button"><span
+                    class="glyphicon glyphicon-remove"></span> Clear the actions</a>
+        </p>
+
+        <div id="actions">
+        </div>
+
+    </div>
+</div>
+
+<div th:include="layout :: footer" id="footer">(footer)</div>
+
+<div th:fragment="script">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var actionList = $("#actions");
+
+            var showAction = function (action) {
+                var div = '';
+
+                // with a proper JS library this could have been better (AngularJS?)
+                switch (action.actionType) {
+                    case "INSERT":
+                        div = '<div class="alert alert-success" role="alert">' +
+                                '<strong>New!</strong> A new Magic has been created (ID = ' + action.id + ') at ' + new Date(action.timestamp) +
+                                '</div>';
+                        break;
+                    case "UPDATE":
+                        div = '<div class="alert alert-info" role="alert">' +
+                                '<strong>Updated!</strong> A Magic has been updated (ID = ' + action.id + ') at ' + new Date(action.timestamp) +
+                                '</div>';
+                        break;
+                    case "DELETE":
+                        div = '<div class="alert alert-danger" role="alert">' +
+                                '<strong>Deleted!</strong> A Magic has been deleted (ID = ' + action.id + ') at ' + new Date(action.timestamp) +
+                                '</div>';
+                        break;
+                }
+
+                actionList.prepend(div);
+            };
+
+            var socket = new SockJS('/magic');
+            var stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                stompClient.subscribe('/topic/actions', function (data) {
+                    var body = data.body;
+                    var action = JSON.parse(body);
+                    showAction(action);
+                });
+            });
+        });
+    </script>
+</div>
+
+</body>
+</html>

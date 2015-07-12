@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd">
+
+    <bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <property name="targetConnectionFactory">
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                <property name="brokerURL" value="vm://localhost"/>
+            </bean>
+        </property>
+        <property name="sessionCacheSize" value="10"/>
+    </bean>
+
+    <bean id="queue" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="topic.demo"/>
+    </bean>
+
+
+    <int:channel id="jmsOutChannel"/>
+    <jms:outbound-channel-adapter id="jmsout" channel="jmsOutChannel" destination="queue"/>
+
+    <jms:inbound-gateway id="jmsin"
+                         request-destination="queue"
+                         request-channel="jmsInChannel"/>
+    <int:channel id="jmsInChannel"/>
+    <int:service-activator input-channel="jmsInChannel" ref="actionQueueHandler"/>
+
+</beans>

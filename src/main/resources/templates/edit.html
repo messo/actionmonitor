@@ -1,0 +1,55 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Action Monitor - Management'"></head>
+<body>
+
+<nav th:replace="fragments/navbar :: navbar('management')">Navbar</nav>
+
+<div class="container">
+    <div class="starter-template">
+        <h1>Editing Magic#<span th:text="${magic.id}">555</span></h1>
+
+        <p class="lead">Here you can modify the entity</p>
+
+        <form method="post" th:action="@{/management/save}" class="form-horizontal">
+            <input type="hidden" name="id" th:value="${magic.id}"/>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">ID</label>
+
+                <div class="col-sm-10">
+                    <p class="form-control-static" th:text="${magic.id}">ID</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description" class="col-sm-2 control-label">Description</label>
+
+                <div class="col-sm-10">
+                    <input name="description" type="text" class="form-control" id="description"
+                           placeholder="Description" th:value="${magic.description}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Updated At</label>
+
+                <div class="col-sm-10">
+                    <p class="form-control-static" th:text="${magic.updatedAt}">...</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Created At</label>
+
+                <div class="col-sm-10">
+                    <p class="form-control-static" th:text="${magic.createdAt}">...</p>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok"></span> Save
+            </button>
+        </form>
+
+    </div>
+</div>
+
+<div th:include="layout :: footer" id="footer">(footer)</div>
+
+</body>
+</html>

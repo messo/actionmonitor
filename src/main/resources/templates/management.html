@@ -1,0 +1,56 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='Action Monitor - Management'"></head>
+<body>
+
+<nav th:replace="fragments/navbar :: navbar('management')">Navbar</nav>
+
+<div class="container">
+    <div class="starter-template">
+        <h1>Listing</h1>
+
+        <p class="lead">Here you can manage the magic entities</p>
+
+        <form method="post" th:action="@{/management/createNew}" class="form-inline">
+            <div class="form-group">
+                <label class="sr-only" for="description">Description</label>
+                <input name="description" type="text" class="form-control input-sm" id="description"
+                       placeholder="Description"/>
+            </div>
+            <button type="submit" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus"></span> Create
+                new
+            </button>
+        </form>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Description</th>
+                <th>Updated at</th>
+                <th>Created at</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="magic : ${magics}">
+                <td th:text="${magic.id}">34</td>
+                <td th:text="${magic.description}">Text text text...</td>
+                <td th:text="${magic.updatedAt}"></td>
+                <td th:text="${magic.createdAt}"></td>
+                <td>
+                    <a th:href="@{/management/edit/{id}(id=${magic.id})}" class="btn btn-info btn-sm"
+                       role="button"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a th:href="@{/management/remove/{id}(id=${magic.id})}" class="btn btn-danger btn-sm" role="button"><span
+                            class="glyphicon glyphicon-trash"></span></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<div th:include="layout :: footer" id="footer">(footer)</div>
+
+</body>
+</html>
