@@ -9,12 +9,12 @@ Main components used
 
 * Maven 3
 * Spring Boot
-* * Embedded Tomcat
-* * Spring Data JPA: Hibernate + H2
-* * Spring Integration: Apache ActiveMQ
-* * Logging: sl4j + logback (by Spring Boot Logging)
-* * Spring Websocket
-* * Thymeleaf
+  * Embedded Tomcat
+  * Spring Data JPA: Hibernate + H2
+  * Spring Integration: Apache ActiveMQ
+  * Logging: sl4j + logback (by Spring Boot Logging)
+  * Spring Websocket
+  * Thymeleaf
 * Mockito
 * UI: Bootstrap + JQuery + Stomp over SockJS
 
